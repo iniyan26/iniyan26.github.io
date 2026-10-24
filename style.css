@@ -37,3 +37,6 @@
 .button span{display:inline-block;transition:transform .2s}
 .button:hover span{transform:translate(3px,-3px)}
 @media(prefers-reduced-motion:reduce){.hero h1 span,.wide-symbol span,.status-dot,.board,.monitor-board,.stm-board,.leds i,.circuit g[fill="#d7ff72"] circle,.circuit g[fill="#0e1517"] rect:first-child,.js .hero-art{animation:none}.circuit path.pulse{display:none}}
+
+/* Brighter social links */
+.social-row a,.contact-links a{color:var(--text);font-size:12px;font-weight:500}
