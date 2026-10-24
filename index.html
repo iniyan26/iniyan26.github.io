@@ -1,82 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b0d12" />
-  <meta name="description" content="Iniyan A — aspiring PCB Design Engineer focused on KiCad, PCB layout, and embedded hardware." />
-  <title>Iniyan A | PCB Design Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Iniyan A | PCB Design Portfolio</title>
+<meta name="description" content="Iniyan A: PCB and electronics design in KiCad. STM32 development board and USB-C environmental monitor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F3EA; --panel:#E4E8DA; --ink:#12301F; --muted:#4B6455; --copper:#9A5B1E; --pad:#7A5A12; --line:#B9C4AE; --focus:#9A5B1E;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E2E22; --panel:#14392B; --ink:#EEF0E3; --muted:#A9BDB0; --copper:#D99A5B; --pad:#E5C672; --line:#2C5645; --focus:#E5C672; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E2E22; --panel:#14392B; --ink:#EEF0E3; --muted:#A9BDB0; --copper:#D99A5B; --pad:#E5C672; --line:#2C5645; --focus:#E5C672; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Figtree,"Segoe UI",Roboto,Arial,sans-serif;font-size:1.0625rem;line-height:1.6}
+h1,h2,h3{font-family:"Bricolage Grotesque","Segoe UI",Arial,sans-serif;margin:0;line-height:1.1;letter-spacing:-.01em}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.wrap{max-width:62rem;margin:0 auto;padding:0 1.25rem}
+nav{display:flex;gap:1.5rem;justify-content:space-between;align-items:center;padding:1.25rem 0}
+nav .brand{font-family:"Bricolage Grotesque",Arial,sans-serif;font-weight:800;text-decoration:none;font-size:1.25rem}
+nav ul{display:flex;gap:1.25rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+nav ul a{text-decoration:none;color:var(--muted);font-weight:500}
+nav ul a:hover{color:var(--ink)}
+.hero{padding:3.5rem 0 4rem;position:relative}
+.hero h1{font-size:clamp(3.2rem,11vw,7.5rem);font-weight:800;letter-spacing:-.04em}
+.hero p.lead{max-width:34rem;font-size:1.25rem;color:var(--muted);margin:1.25rem 0 0}
+.resume-btn{margin-top:.5rem}
+.traces{display:block;width:100%;height:auto;margin:2.5rem 0 0;overflow:visible}
+.traces path{fill:none;stroke:var(--copper);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.traces circle{fill:var(--bg);stroke:var(--pad);stroke-width:3}
+.traces text{fill:var(--ink);font:600 15px Figtree,Arial,sans-serif}
+.traces a{cursor:pointer}
+.traces a:hover text{text-decoration:underline}
+.traces path{stroke-dasharray:1;stroke-dashoffset:1;animation:route 1.6s ease-out .2s forwards}
+.traces path:nth-of-type(2){animation-delay:.4s}.traces path:nth-of-type(3){animation-delay:.6s}.traces path:nth-of-type(4){animation-delay:.8s}
+@keyframes route{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.traces path{animation:none;stroke-dashoffset:0}html{scroll-behavior:auto}}
+section{padding:3rem 0;border-top:2px solid var(--line)}
+section>.wrap>h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:1.5rem}
+.about{max-width:40rem}
+.about p{margin:0 0 1rem}
+.projects{display:grid;gap:1.5rem}
+@media (min-width:46rem){.projects{grid-template-columns:1fr 1fr}}
+.card{background:var(--panel);border-left:6px solid var(--copper);padding:1.5rem;border-radius:2px 14px 2px 14px}
+.card h3{font-size:1.6rem;margin-bottom:.5rem}
+.card p{margin:.25rem 0 1rem;color:var(--muted)}
+.card ul{margin:0 0 1.25rem;padding-left:1.1rem}
+.card li{margin:.25rem 0}
+.status{font-size:.95rem;border-top:1px dashed var(--line);padding-top:.9rem;margin:0 0 1.1rem}
+.btn{display:inline-block;padding:.65rem 1.1rem;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:600;border-radius:999px}
+.btn:hover{background:var(--copper);color:var(--bg)}
+.skills{display:flex;flex-wrap:wrap;gap:.6rem;list-style:none;margin:0;padding:0}
+.skills li{padding:.45rem .9rem;border:2px solid var(--line);border-radius:999px;font-weight:500}
+.contact-list{display:grid;gap:.75rem;list-style:none;margin:0;padding:0;max-width:30rem}
+.contact-list a{display:flex;justify-content:space-between;gap:1rem;padding:.9rem 1.1rem;background:var(--panel);text-decoration:none;border-radius:10px;font-weight:500}
+.contact-list a:hover{background:var(--line)}
+.contact-list span{color:var(--muted);overflow-wrap:anywhere;text-align:right}
+.entries{display:grid;gap:1.25rem;max-width:44rem}
+.entry{border-left:4px solid var(--copper);padding:.1rem 0 .1rem 1.1rem}
+.entry h3{font-size:1.25rem;margin-bottom:.35rem}
+.entry p{margin:.15rem 0;color:var(--muted)}
+.entry p.when{color:var(--ink);font-weight:500}
+.entry a{color:var(--copper);font-weight:600}
+footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
+</style>
 </head>
 <body>
-  <div class="noise" aria-hidden="true"></div>
-  <header class="topbar">
-    <a class="brand" href="#home" aria-label="Iniyan home"><span class="brand-mark">IA</span><span>INIYAN A<span class="brand-dot">.</span></span></a>
-    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
-    <nav class="nav-links" aria-label="Main navigation">
-      <a href="#about">About</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#journey">Journey</a><a class="nav-contact" href="#contact">Contact <span>↗</span></a>
-    </nav>
+<div class="wrap">
+  <nav aria-label="Main">
+    <a class="brand" href="#top">Iniyan A</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#publication">Publication</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero" id="top">
+    <h1>Iniyan A</h1>
+    <p class="lead">Electronics and Communication Engineering graduate who designs PCBs in KiCad. Open to PCB Design Engineer and Hardware Design Trainee roles.</p>
+    <p><a class="btn resume-btn" href="assets/resume.pdf" target="_blank" rel="noopener">View Resume</a></p>
+
+    <svg class="traces" viewBox="0 0 900 190" role="group" aria-label="Contact links">
+      <path pathLength="1" d="M0 30 H620"/>
+      <path pathLength="1" d="M0 80 H560 L590 110 H620"/>
+      <path pathLength="1" d="M0 130 H540 L570 100 L590 100"/>
+      <path pathLength="1" d="M0 175 H620"/>
+      <a href="https://github.com/iniyan26"><circle cx="640" cy="30" r="9"/><text x="662" y="36">GitHub</text></a>
+      <a href="https://linkedin.com/in/iniyan-a-834b85290"><circle cx="640" cy="80" r="9"/><text x="662" y="86">LinkedIn</text></a>
+      <a href="mailto:iniyanahilan6@gmail.com"><circle cx="640" cy="130" r="9"/><text x="662" y="136">Email</text></a>
+      <a href="tel:+919080522694"><circle cx="640" cy="175" r="9"/><text x="662" y="181">Phone</text></a>
+    </svg>
   </header>
+</div>
 
-  <main>
-    <section class="hero section-wrap" id="home">
-      <div class="hero-copy">
-        <div class="eyebrow"><span class="status-dot"></span> OPEN TO PCB DESIGN OPPORTUNITIES</div>
-        <p class="intro">Hello, I'm</p>
-        <h1>Iniyan <span>A.</span></h1>
-        <h2>PCB Design &amp; <em>Hardware</em> Enthusiast</h2>
-        <p class="hero-text">ECE graduate building practical skills in schematic capture, PCB layout, and embedded hardware. I enjoy turning circuit ideas into organized, manufacturable board designs.</p>
-        <div class="hero-actions"><a class="button button-primary" href="#projects">Explore my work <span>↘</span></a><a class="button button-ghost" href="assets/resume.pdf" target="_blank" rel="noopener">View resume <span>↗</span></a></div>
-        <div class="social-row"><a href="mailto:iniyanahilan6@gmail.com">Email ↗</a><a href="https://www.linkedin.com/in/iniyan-a-834b85290" target="_blank" rel="noopener">LinkedIn ↗</a><a href="https://github.com/iniyan26" target="_blank" rel="noopener">GitHub ↗</a></div>
+<section id="about">
+  <div class="wrap">
+    <h2>About</h2>
+    <div class="about">
+      <p>I'm Iniyan, a B.Tech graduate in Electronics and Communication Engineering from SRM Institute of Science and Technology. I work in KiCad on schematic capture and PCB layout, and I have hands-on experience with STM32 board design, USB-C power principles, CAN bus communication and electronic troubleshooting.</p>
+      <p>My projects focus on the parts every board needs: clean power input, voltage regulation, protection, and a layout that passes its design rule check. I'm also training in Altium Designer and co-authored an IEEE conference paper on CAN bus monitoring.</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <h2>Projects</h2>
+    <div class="projects">
+      <article class="card">
+        <h3>BMS PCB</h3>
+        <p>October 2026 to present. A battery-management-system board I'm designing in KiCad.</p>
+        <ul>
+          <li>Currently working through the schematic and board-design stages</li>
+        </ul>
+        <p class="status">In progress. The repository will be linked here once it is uploaded to GitHub.</p>
+      </article>
+
+      <article class="card">
+        <h3>STM32 Development Board</h3>
+        <p>May to June 2026. A custom STM32 board designed in KiCad, powered over USB-C with GPIO breakouts for prototyping. I arranged the microcontroller, power and GPIO connections, then worked on component placement and routing.</p>
+        <ul>
+          <li>USB-C 5V input with fuse and TVS protection</li>
+          <li>AP2112K 3.3V regulator</li>
+          <li>Reset switch and status LEDs</li>
+          <li>SWD debugging and UART communication</li>
+          <li>GPIO expansion headers on a two-layer PCB</li>
+        </ul>
+        <p class="status">Final DRC check: 0 violations and 0 unconnected items. Manufacturing and hardware testing are not yet confirmed.</p>
+        <a class="btn" href="https://github.com/iniyan26/STM32-Development-Board">View on GitHub</a>
+      </article>
+
+      <article class="card">
+        <h3>USB-C Environmental Monitor</h3>
+        <p>August to September 2026. A USB-C-powered environmental monitoring board prototype designed in KiCad to measure temperature, humidity and air quality. I handled schematic arrangement, footprint generation, component placement and board design.</p>
+        <ul>
+          <li>USB-C power input</li>
+          <li>Sensor interfaces for environmental readings</li>
+          <li>Power regulation and decoupling</li>
+          <li>Custom PCB layout</li>
+        </ul>
+        <p class="status">PCB design and hardware testing status to be updated.</p>
+        <a class="btn" href="https://github.com/iniyan26/USB-C-Environmental-Monitor">View on GitHub</a>
+      </article>
+
+      <article class="card">
+        <h3>CAN Bus Monitoring on Embedded Linux</h3>
+        <p>January to March 2026. A CAN bus monitoring system and CAN gateway running on Embedded Linux, built on SocketCAN.</p>
+        <ul>
+          <li>Kvaser CAN hardware</li>
+          <li>MCP2515 CAN modules</li>
+          <li>Arduino nodes on the bus</li>
+        </ul>
+        <a class="btn" href="https://ieeexplore.ieee.org/document/11709757">Read the paper</a>
+      </article>
+
+      <article class="card">
+        <h3>Autonomous Vacuum Cleaner</h3>
+        <p>August to October 2025. An obstacle-avoidance robot built around an ATmega32 microcontroller, sensors and motors. I contributed to the build.</p>
+        <ul>
+          <li>Sensors for detecting obstacles</li>
+          <li>Motor control for movement and direction</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2>Skills</h2>
+    <ul class="skills">
+      <li>KiCad</li>
+      <li>Schematic design</li>
+      <li>Two-layer PCB layout</li>
+      <li>Design rule checks (DRC)</li>
+      <li>USB-C power input</li>
+      <li>3.3V voltage regulation</li>
+      <li>Circuit protection (fuse, TVS)</li>
+      <li>Gerber file generation</li>
+      <li>SWD and UART</li>
+      <li>Sensor interfaces</li>
+      <li>CAN bus</li>
+      <li>STM32</li>
+      <li>ATmega32</li>
+      <li>ESP32</li>
+      <li>Arduino</li>
+      <li>Embedded Linux</li>
+      <li>C</li>
+      <li>Python</li>
+      <li>Altium Designer</li>
+    </ul>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <h2>Experience</h2>
+    <div class="entries">
+      <div class="entry">
+        <h3>Industrial Trainee Intern, Motherson</h3>
+        <p>Maraimalai Nagar, Chennai</p>
+        <p class="when">December 2025 to January 2026</p>
+        <p>Worked in a robotic paint shop for automobile parts. Learned the complete robotic painting process, including primer application, base coat and clear coat techniques. Contributed to troubleshooting robot errors to keep manufacturing running smoothly.</p>
       </div>
-      <div class="hero-art" aria-label="Decorative circuit-board illustration">
-        <div class="art-top"><span>HARDWARE / 001</span><span>PCB LAB NOTES</span></div>
-        <svg class="circuit" viewBox="0 0 500 420" role="img" aria-label="Abstract printed circuit board traces">
-          <defs><pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.2" fill="#475467" opacity=".55"/></pattern></defs>
-          <rect width="500" height="420" fill="url(#dots)"/>
-          <g fill="none" stroke="#536b60" stroke-width="2"><path d="M30 80 H135 V130 H205 V185 H260"/><path d="M20 250 H105 V210 H165 V165 H210"/><path d="M300 40 V95 H365 V140 H440"/><path d="M280 350 V295 H345 V255 H460"/><path d="M30 330 H90 V285 H145"/><path d="M380 365 V325 H425 V300"/></g>
-          <g fill="none" stroke="#d7ff72" stroke-width="2.5"><path d="M45 145 H105 V175 H160"/><path d="M300 170 H360 V210 H430"/><path d="M180 390 V340 H220 V300"/><path d="M250 20 V65 H225 V100"/></g>
-          <g fill="#0e1517" stroke="#d7ff72" stroke-width="2"><rect x="160" y="105" width="150" height="200" rx="7"/><rect x="185" y="132" width="100" height="146" rx="3" stroke="#52625a"/><rect x="205" y="155" width="60" height="100" rx="2" stroke="#d7ff72"/><rect x="50" y="185" width="72" height="44" rx="4" stroke="#52625a"/><rect x="360" y="240" width="70" height="45" rx="4" stroke="#52625a"/></g>
-          <g fill="#d7ff72"><circle cx="135" cy="80" r="4"/><circle cx="205" cy="185" r="4"/><circle cx="300" cy="170" r="4"/><circle cx="345" cy="255" r="4"/><circle cx="145" cy="285" r="4"/><circle cx="105" cy="175" r="4"/><circle cx="365" cy="140" r="4"/></g>
-          <g fill="#f1f4ec" font-family="DM Mono, monospace" font-size="11"><text x="191" y="194">STM32</text><text x="191" y="210">MCU</text><text x="193" y="240" fill="#9eaaa1">DESIGN / 03</text><text x="20" y="28" fill="#9eaaa1">SIGNAL PATH</text><text x="355" y="395" fill="#9eaaa1">REV. 01</text></g>
-        </svg>
-        <div class="art-bottom"><span>SCHEMATIC → LAYOUT → DRC</span><span class="art-index">01 / 04</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <h2>Education</h2>
+    <div class="entries">
+      <div class="entry">
+        <h3>B.Tech, Electronics and Communication Engineering</h3>
+        <p>SRM Institute of Science and Technology, Kattankulathur, Chennai</p>
+        <p class="when">August 2022 to May 2026. GPA 7.7/10.</p>
       </div>
-      <div class="hero-foot"><span>BASED IN INDIA</span><span>ECE · PCB DESIGN · EMBEDDED HARDWARE</span><span>SCROLL TO EXPLORE ↓</span></div>
-    </section>
-
-    <section class="about section-wrap" id="about">
-      <div class="section-heading"><p class="eyebrow">01 / ABOUT</p><h2>Curious about circuits.<br><span>Serious about learning.</span></h2></div>
-      <div class="about-content"><p>I’m an Electronics and Communication Engineering graduate from SRM Institute of Science and Technology, currently focusing on PCB design and hardware development.</p><p>My practice projects include an STM32 hardware board, a USB-C environmental monitor, and a battery management system PCB that is currently in progress. I use KiCad to work through schematics, footprints, component placement, routing, and design checks.</p><div class="about-note"><span class="note-icon">↳</span><span>My current goal: grow into a PCB Design Engineer role by building a clear portfolio of practical, well-documented hardware projects.</span></div></div>
-    </section>
-
-    <section class="projects section-wrap" id="projects">
-      <div class="section-heading projects-heading"><div><p class="eyebrow">02 / SELECTED WORK</p><h2>Projects in <span>progress.</span></h2></div><p class="heading-note">A few hardware projects I've designed or am actively developing.</p></div>
-      <div class="project-grid">
-        <article class="project-card featured"><div class="project-visual visual-bms"><span class="visual-label">PCB / 01</span><div class="board board-large"><span class="chip">BMS</span><i></i><i></i><i></i><b></b><b></b><b></b><div class="trace trace-a"></div><div class="trace trace-b"></div></div><span class="visual-caption">BATTERY MANAGEMENT SYSTEM</span></div><div class="project-info"><div class="project-meta"><span>IN PROGRESS</span><span>2026</span></div><h3>BMS PCB Design</h3><p>Developing a battery-management-system PCB, working through the schematic and board-design stages.</p><div class="tags"><span>KiCad</span><span>Schematic Capture</span><span>PCB Layout</span></div><a class="text-link" href="https://github.com/iniyan26" target="_blank" rel="noopener">View GitHub profile ↗</a></div></article>
-        <article class="project-card"><div class="project-visual visual-monitor"><span class="visual-label">PCB / 02</span><div class="monitor-board"><div class="usb"></div><div class="sensor"></div><div class="pinrow"></div><div class="silk">ENV / MON</div><div class="track t1"></div><div class="track t2"></div></div><span class="visual-caption">USB-C · SENSOR INTERFACE</span></div><div class="project-info"><div class="project-meta"><span>PCB PROJECT</span><span>2026</span></div><h3>USB-C Environmental Monitor</h3><p>A USB-C-powered environmental monitor PCB prototype, with schematic arrangement, footprint work, component placement, and board layout.</p><div class="tags"><span>KiCad</span><span>USB-C</span><span>PCB Design</span></div><a class="text-link" href="https://github.com/iniyan26" target="_blank" rel="noopener">View GitHub profile ↗</a></div></article>
-        <article class="project-card"><div class="project-visual visual-stm"><span class="visual-label">PCB / 03</span><div class="stm-board"><div class="stm-chip">STM32</div><div class="usb-c"></div><div class="headers h-left"></div><div class="headers h-right"></div><div class="leds"><i></i><i></i><i></i></div><div class="stm-line"></div></div><span class="visual-caption">MCU · POWER · GPIO</span></div><div class="project-info"><div class="project-meta"><span>PCB PROJECT</span><span>2026</span></div><h3>STM32 Embedded Hardware Board</h3><p>A KiCad board layout practice project arranging microcontroller, power, and GPIO connections, with component placement and routing.</p><div class="tags"><span>STM32</span><span>KiCad</span><span>GPIO</span></div><a class="text-link" href="https://github.com/iniyan26" target="_blank" rel="noopener">View GitHub profile ↗</a></div></article>
-        <article class="project-card project-wide"><div class="wide-symbol">AT<span>32</span></div><div class="project-info"><div class="project-meta"><span>EMBEDDED SYSTEMS</span><span>2025</span></div><h3>Autonomous Vacuum Cleaner</h3><p>An obstacle-avoidance robot project using a microcontroller, sensors, and motors for movement and direction control.</p><div class="tags"><span>ATmega32</span><span>Sensors</span><span>Motors</span></div></div></article>
+      <div class="entry">
+        <h3>Higher Secondary (HSC)</h3>
+        <p>Sri Kanchi Sankara Vidyalaya Matric Hr. Sec School, Mayiladuthurai</p>
+        <p class="when">June 2021 to March 2022. GPA 8.2/10.</p>
       </div>
-      <p class="project-disclaimer">Project repository links currently point to my GitHub profile. I'll replace them with individual repositories as each project is published.</p>
-    </section>
+      <div class="entry">
+        <h3>Secondary School (SSLC)</h3>
+        <p class="when">June 2019 to March 2020. GPA 8.1/10.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section class="skills section-wrap" id="skills">
-      <div class="section-heading"><p class="eyebrow">03 / TOOLKIT</p><h2>Tools I’m learning<br><span>to build with.</span></h2></div>
-      <div class="skills-grid"><div class="skill-group"><span class="skill-num">01</span><h3>PCB Design</h3><p>KiCad · Schematic Design · PCB Layout · DRC · Gerber Generation</p></div><div class="skill-group"><span class="skill-num">02</span><h3>Embedded Hardware</h3><p>STM32 · ATmega32 · ESP32 · Arduino · Embedded Linux</p></div><div class="skill-group"><span class="skill-num">03</span><h3>Programming</h3><p>C · Python</p></div><div class="skill-group"><span class="skill-num">04</span><h3>Current Learning</h3><p>Altium Designer Essentials — On Demand · PCB design workflow</p></div></div>
-    </section>
+<section id="publication">
+  <div class="wrap">
+    <h2>Certifications and publication</h2>
+    <div class="entries">
+      <div class="entry">
+        <h3>PCB Basic Design Course</h3>
+        <p>Altium Education. Credential ID: cert phj16kw5</p>
+        <p class="when">September 2026</p>
+      </div>
+      <div class="entry">
+        <h3>Altium Designer Essentials</h3>
+        <p>Professional training covering PCB design fundamentals and design tools.</p>
+      </div>
+      <div class="entry">
+        <h3>CAN Bus Monitoring on Embedded Linux: A Real-Time Gateway Architecture for Automotive Networks</h3>
+        <p>Bavinkumar G, Iniyan A, Mohammed Irfan M, Padmajothi V. 2026 International Conference on Smart Communication and Sustainable Technologies (ICSCST).</p>
+        <p><a href="https://ieeexplore.ieee.org/document/11709757">Read on IEEE Xplore</a></p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section class="journey section-wrap" id="journey">
-      <div class="section-heading"><p class="eyebrow">04 / JOURNEY</p><h2>Learning by <span>building.</span></h2></div>
-      <div class="timeline"><article><div class="timeline-date">2022 — 2026</div><div><h3>B.Tech, Electronics &amp; Communication Engineering</h3><p>SRM Institute of Science and Technology · CGPA 7.7/10</p></div></article><article><div class="timeline-date">SEP 2026</div><div><h3>PCB Basic Design Course</h3><p>Altium Education · Certificate ID: cert_phj16kw5</p></div></article><article><div class="timeline-date">CURRENT</div><div><h3>Altium Designer Essentials — On Demand</h3><p>Professional training in progress through Altium Training.</p></div></article><article><div class="timeline-date">2026</div><div><h3>Research Publication</h3><p>Co-author of “CAN Bus Monitoring on Embedded Linux: A Real-Time Gateway Architecture,” presented at ICSCST 2026.</p><a class="text-link" href="https://ieeexplore.ieee.org/document/11709757" target="_blank" rel="noopener">Read on IEEE Xplore ↗</a></div></article></div>
-    </section>
+<section id="contact">
+  <div class="wrap">
+    <h2>Contact</h2>
+    <ul class="contact-list">
+      <li><a href="https://linkedin.com/in/iniyan-a-834b85290">LinkedIn profile <span>linkedin.com/in/iniyan-a-834b85290</span></a></li>
+      <li><a href="https://github.com/iniyan26">GitHub profile <span>github.com/iniyan26</span></a></li>
+      <li><a href="mailto:iniyanahilan6@gmail.com">Email <span>iniyanahilan6@gmail.com</span></a></li>
+      <li><a href="tel:+919080522694">Phone <span>+91 90805 22694</span></a></li>
+    </ul>
+  </div>
+</section>
 
-    <section class="contact section-wrap" id="contact"><p class="eyebrow">05 / CONTACT</p><h2>Have a hardware<br>opportunity in mind<span>?</span></h2><p class="contact-copy">I'm looking for opportunities to grow in PCB design and hardware development. If my projects fit what your team needs, let's connect.</p><a class="button button-primary" href="mailto:iniyanahilan6@gmail.com">Get in touch <span>↗</span></a><div class="contact-links"><a href="mailto:iniyanahilan6@gmail.com">iniyanahilan6@gmail.com</a><a href="https://www.linkedin.com/in/iniyan-a-834b85290" target="_blank" rel="noopener">LinkedIn ↗</a><a href="https://github.com/iniyan26" target="_blank" rel="noopener">GitHub ↗</a></div></section>
-  </main>
-  <footer class="footer"><a class="brand" href="#home"><span class="brand-mark">IA</span><span>INIYAN A<span class="brand-dot">.</span></span></a><span>© <span id="year"></span> Iniyan A · Built with curiosity.</span><a href="#home">Back to top ↑</a></footer>
-  <script src="script.js"></script>
+<footer>
+  <div class="wrap">&copy; 2026 Iniyan A</div>
+</footer>
 </body>
 </html>
