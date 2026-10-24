@@ -47,7 +47,12 @@ nav ul a:hover{color:var(--ink)}
 .traces path{stroke-dasharray:1;stroke-dashoffset:1;animation:route 1.6s ease-out .2s forwards}
 .traces path:nth-of-type(2){animation-delay:.4s}.traces path:nth-of-type(3){animation-delay:.6s}.traces path:nth-of-type(4){animation-delay:.8s}
 @keyframes route{to{stroke-dashoffset:0}}
-@media (prefers-reduced-motion:reduce){.traces path{animation:none;stroke-dashoffset:0}html{scroll-behavior:auto}}
+.traces .pulse{stroke:var(--pad);stroke-width:5;stroke-dasharray:.07 .93;stroke-dashoffset:0;opacity:0;animation:flow 3.2s linear 2.4s infinite backwards}
+@keyframes flow{0%{opacity:0;stroke-dashoffset:0}4%{opacity:1}96%{opacity:1}100%{opacity:0;stroke-dashoffset:-1}}
+.traces circle{transform-box:fill-box;transform-origin:center;animation:pad 3.2s ease-in-out 2.4s infinite backwards}
+.traces a:nth-of-type(2) circle{animation-delay:2.8s}.traces a:nth-of-type(3) circle{animation-delay:3.2s}.traces a:nth-of-type(4) circle{animation-delay:3.6s}
+@keyframes pad{0%,90%{transform:scale(1);fill:var(--bg)}97%{transform:scale(1.35);fill:var(--pad)}100%{transform:scale(1);fill:var(--bg)}}
+@media (prefers-reduced-motion:reduce){.traces .pulse{display:none}.traces circle{animation:none}html{scroll-behavior:auto}}
 section{padding:3rem 0;border-top:2px solid var(--line)}
 section>.wrap>h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:1.5rem}
 .about{max-width:40rem}
@@ -74,12 +79,61 @@ section>.wrap>h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:1.5rem}
 .entry p{margin:.15rem 0;color:var(--muted)}
 .entry p.when{color:var(--ink);font-weight:500}
 .entry a{color:var(--copper);font-weight:600}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 4.5rem)}
+body{counter-reset:sec;background:radial-gradient(color-mix(in srgb,var(--line) 75%,transparent) 1px,transparent 1.5px) 0 0/26px 26px,var(--bg)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+nav{display:block;padding:0;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 80%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.navin{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 1.25rem}
+nav ul{flex-wrap:nowrap;gap:1.1rem;overflow-x:auto;min-width:0;scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav ul a{white-space:nowrap;padding:.35rem 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+nav ul a:hover,nav ul a.on{color:var(--ink);border-color:var(--copper)}
+.bar{position:absolute;left:0;bottom:-1px;height:3px;width:100%;background:var(--copper);transform:scaleX(0);transform-origin:left}
+#theme{flex:none;width:2.4rem;height:2.4rem;border-radius:50%;border:2px solid var(--line);background:none;color:var(--ink);font-size:1.1rem;cursor:pointer;transition:border-color .2s,transform .3s}
+#theme:hover{border-color:var(--copper);transform:rotate(180deg)}
+.hero>p{animation:rise .9s cubic-bezier(.2,.7,.2,1) .3s both}
+.hero>p+p{animation-delay:.5s}
+.hero .btn{margin:.6rem .7rem 0 0}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}}
+@keyframes shine{to{background-position:200% 0}}
+@supports (-webkit-background-clip:text) or (background-clip:text){.hero h1{background:linear-gradient(90deg,var(--ink) 0%,var(--copper) 50%,var(--ink) 100%) 0 0/200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:.08em;animation:rise .9s cubic-bezier(.2,.7,.2,1) both,shine 7s linear 1s infinite}}
+.btn{transition:background .2s,transform .2s}
+.btn::after{content:" \2192";display:inline-block;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn:hover::after{transform:translateX(4px)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--bg)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:1rem;list-style:none;padding:0;margin:2.5rem 0 0}
+.stats li{background:var(--panel);padding:1rem 1.1rem;border-top:3px solid var(--copper);border-radius:2px 12px 2px 12px}
+.stats b{display:block;font:800 2.4rem/1 "Bricolage Grotesque",Arial,sans-serif;margin-bottom:.3rem}
+.stats span{color:var(--muted);font-size:.95rem}
+section>.wrap>h2::before{counter-increment:sec;content:"0" counter(sec);display:block;font:600 .85rem Figtree,Arial,sans-serif;letter-spacing:.25em;color:var(--copper);margin-bottom:.5rem}
+section>.wrap>h2::after{content:"";display:block;height:3px;width:4rem;background:var(--copper);margin-top:.7rem;transition:width .9s ease .25s}
+.js section>.wrap>h2.reveal:not(.in)::after{width:0}
+.card{position:relative;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-6px);box-shadow:0 16px 30px -14px rgba(0,0,0,.45)}
+.card::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .3s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--pad) 24%,transparent),transparent 70%)}
+.card:hover::after{opacity:1}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.card .tags span{font-size:.82rem;font-weight:600;padding:.2rem .65rem;border-radius:999px;background:var(--bg);color:var(--ink);border:1px solid var(--line)}
+.skills li{transition:background .2s,color .2s,border-color .2s,transform .2s}
+.skills li:hover{background:var(--copper);color:var(--bg);border-color:var(--copper);transform:translateY(-3px)}
+.entry{transition:padding-left .25s,border-color .25s}
+.entry:hover{padding-left:1.5rem;border-color:var(--pad)}
+.contact-list a{transition:transform .2s,background .2s}
+.contact-list a:hover{transform:translateX(8px)}
+.js .reveal{opacity:0;translate:0 26px;transition:opacity .7s ease,translate .7s cubic-bezier(.2,.7,.2,1),transform .25s,box-shadow .25s,background .2s,color .2s,border-color .2s,padding-left .25s}
+.js .reveal.in{opacity:1;translate:0 0}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+footer a{color:var(--copper);font-weight:600}
+@media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;translate:none;transition:none}.hero>p,.hero h1{animation:none}.btn:hover,.card:hover{transform:none}}
 footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
 </style>
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-<div class="wrap">
-  <nav aria-label="Main">
+<nav aria-label="Main">
+  <div class="wrap navin">
     <a class="brand" href="#top">Iniyan A</a>
     <ul>
       <li><a href="#about">About</a></li>
@@ -90,18 +144,26 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
       <li><a href="#publication">Publication</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-  </nav>
+    <button id="theme" type="button" aria-label="Switch light or dark theme">&#9680;</button>
+  </div>
+  <span class="bar" id="bar"></span>
+</nav>
 
+<div class="wrap">
   <header class="hero" id="top">
     <h1>Iniyan A</h1>
     <p class="lead">Electronics and Communication Engineering graduate who designs PCBs in KiCad. Open to PCB Design Engineer and Hardware Design Trainee roles.</p>
-    <p><a class="btn resume-btn" href="assets/resume.pdf" target="_blank" rel="noopener">View Resume</a></p>
+    <p><a class="btn resume-btn" href="https://drive.google.com/file/d/1IP-IfQZywYvWJmzGMnwV5Y_b5OuLs2GI/view?usp=drive_link" target="_blank" rel="noopener">View Resume</a><a class="btn ghost" href="#projects">See Projects</a></p>
 
     <svg class="traces" viewBox="0 0 900 190" role="group" aria-label="Contact links">
-      <path pathLength="1" d="M0 30 H620"/>
-      <path pathLength="1" d="M0 80 H560 L590 110 H620"/>
-      <path pathLength="1" d="M0 130 H540 L570 100 L590 100"/>
-      <path pathLength="1" d="M0 175 H620"/>
+      <path pathLength="1" d="M0 30 H631"/>
+      <path pathLength="1" d="M0 100 H500 L520 80 H631"/>
+      <path pathLength="1" d="M0 150 H480 L500 130 H631"/>
+      <path pathLength="1" d="M0 175 H631"/>
+      <path class="pulse" pathLength="1" aria-hidden="true" d="M0 30 H631"/>
+      <path class="pulse" pathLength="1" aria-hidden="true" style="animation-delay:2.8s" d="M0 100 H500 L520 80 H631"/>
+      <path class="pulse" pathLength="1" aria-hidden="true" style="animation-delay:3.2s" d="M0 150 H480 L500 130 H631"/>
+      <path class="pulse" pathLength="1" aria-hidden="true" style="animation-delay:3.6s" d="M0 175 H631"/>
       <a href="https://github.com/iniyan26"><circle cx="640" cy="30" r="9"/><text x="662" y="36">GitHub</text></a>
       <a href="https://linkedin.com/in/iniyan-a-834b85290"><circle cx="640" cy="80" r="9"/><text x="662" y="86">LinkedIn</text></a>
       <a href="mailto:iniyanahilan6@gmail.com"><circle cx="640" cy="130" r="9"/><text x="662" y="136">Email</text></a>
@@ -130,6 +192,7 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
         <ul>
           <li>Currently working through the schematic and board-design stages</li>
         </ul>
+        <p class="tags"><span>KiCad</span><span>Schematic</span><span>PCB layout</span></p>
         <p class="status">In progress. The repository will be linked here once it is uploaded to GitHub.</p>
       </article>
 
@@ -143,6 +206,7 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
           <li>SWD debugging and UART communication</li>
           <li>GPIO expansion headers on a two-layer PCB</li>
         </ul>
+        <p class="tags"><span>KiCad</span><span>STM32</span><span>PCB design</span></p>
         <p class="status">Final DRC check: 0 violations and 0 unconnected items. Manufacturing and hardware testing are not yet confirmed.</p>
         <a class="btn" href="https://github.com/iniyan26/STM32-Development-Board">View on GitHub</a>
       </article>
@@ -156,6 +220,7 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
           <li>Power regulation and decoupling</li>
           <li>Custom PCB layout</li>
         </ul>
+        <p class="tags"><span>KiCad</span><span>PCB design</span><span>USB-C</span></p>
         <p class="status">PCB design and hardware testing status to be updated.</p>
         <a class="btn" href="https://github.com/iniyan26/USB-C-Environmental-Monitor">View on GitHub</a>
       </article>
@@ -168,6 +233,7 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
           <li>MCP2515 CAN modules</li>
           <li>Arduino nodes on the bus</li>
         </ul>
+        <p class="tags"><span>Embedded Linux</span><span>SocketCAN</span><span>MCP2515</span></p>
         <a class="btn" href="https://ieeexplore.ieee.org/document/11709757">Read the paper</a>
       </article>
 
@@ -178,6 +244,7 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
           <li>Sensors for detecting obstacles</li>
           <li>Motor control for movement and direction</li>
         </ul>
+        <p class="tags"><span>ATmega32</span><span>Sensors</span><span>Motors</span></p>
       </article>
     </div>
   </div>
@@ -281,7 +348,24 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
 </section>
 
 <footer>
-  <div class="wrap">&copy; 2026 Iniyan A</div>
+  <div class="wrap"><span>&copy; 2026 Iniyan A</span><a href="#top">Back to top &uarr;</a></div>
 </footer>
+<script>
+(function(){
+var d=document,r=d.documentElement,rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+d.getElementById('theme').onclick=function(){var dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=dark?'light':'dark'};
+var els=d.querySelectorAll('section h2,.about p,.card,.entry,.skills li,.contact-list li');
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){var e=x.target;e.classList.add('in');io.unobserve(e);setTimeout(function(){e.style.transitionDelay='0ms'},1300)}})},{threshold:.15});
+els.forEach(function(e){e.classList.add('reveal');e.style.transitionDelay=Math.min(Array.prototype.indexOf.call(e.parentNode.children,e),6)*80+'ms';io.observe(e)});
+d.querySelectorAll('[data-count]').forEach(function(n){var to=+n.dataset.count;if(rm)return;n.textContent='0';var go=new IntersectionObserver(function(es){if(es[0].isIntersecting){go.disconnect();var s=performance.now();(function f(now){var p=Math.min((now-s)/1200,1);n.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(s)}});go.observe(n)});
+var bar=d.getElementById('bar');
+function sc(){var h=r.scrollHeight-innerHeight;bar.style.transform='scaleX('+(h>0?scrollY/h:0)+')'}
+addEventListener('scroll',sc,{passive:true});sc();
+var links=d.querySelectorAll('nav ul a');
+var so=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+x.target.id)})}})},{rootMargin:'-45% 0px -50% 0px'});
+d.querySelectorAll('section[id]').forEach(function(s){so.observe(s)});
+d.querySelectorAll('.card').forEach(function(c){c.addEventListener('pointermove',function(e){var b=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-b.left+'px');c.style.setProperty('--my',e.clientY-b.top+'px')})});
+})();
+</script>
 </body>
 </html>
