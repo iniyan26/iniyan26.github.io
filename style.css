@@ -40,3 +40,8 @@
 
 /* Brighter social links */
 .social-row a,.contact-links a{color:var(--text);font-size:12px;font-weight:500}
+
+/* High-visibility contact links */
+.social-row,.contact-links{gap:12px;flex-wrap:wrap}
+.social-row a,.contact-links a{font-family:var(--sans);font-size:14px;font-weight:800;letter-spacing:.01em;color:var(--accent);padding:10px 16px;border:2px solid var(--accent);background:rgba(215,255,114,.08);transition:background .2s,color .2s,transform .2s}
+.social-row a:hover,.contact-links a:hover{background:var(--accent);color:#11170b;transform:translateY(-2px)}
